@@ -26,21 +26,21 @@ describe("scheem grammar tests", function () {
 		expect(parse(program)).toEqual("+");
 	});
 
-	it("can parse empty expresssion", function () {
+	it("can parse empty expression", function () {
 		var program = "()";
 		expect(parse(program)).toEqual([]);
 	});
 
 	it("can parse 3 atoms", function () {
 		var program = "(a b -)";
-		parse(program);
-		expect(parse(program)).toEqual(["a", "b", "-"]);
+		var parsed = parse(program);
+		expect(parsed).toEqual(["a", "b", "-"]);
 	});
 
 	it("can parse an expression within an expression", function () {
 		var program = "(+ (+ 1 2) 3)";
-		parse(program);
-		expect(parse(program)).toEqual([
+		var parsed = parse(program);
+		expect(parsed).toEqual([
 				"+", 
 				["+", "1", "2"], 
 				"3"
@@ -49,21 +49,25 @@ describe("scheem grammar tests", function () {
 
 	it("can handle more than one space between atoms", function () {
 		var program = "(a     b)";
-		parse(program);
-		expect(parse(program)).toEqual(["a", "b"]);
+		var parsed = parse(program);
+		expect(parsed).toEqual(["a", "b"]);
 	});
 
 	it("can handle more than one space between parentheses", function () {
 		var program = " ( a b ) ";
-		parse(program);
-		expect(parse(program)).toEqual(["a", "b"]);
+		var parsed = parse(program);
+		expect(parsed).toEqual(["a", "b"]);
 	});
 
-	it("can handle more than one space between parentheses", function () {
+	it("can handle different whitespaces", function () {
 		var program = " (\n \t a \t b \n) ";
-		parse(program);
-		expect(parse(program)).toEqual(["a", "b"]);
+		var parsed = parse(program);
+		expect(parsed).toEqual(["a", "b"]);
 	});
 
+	it("can handle quote special syntax", function () {
+		var program = "'(1 2 3)";
+		expect(parse(program)).toEqual(["quote", ["1", "2", "3"]]);
+	});
 });
 
