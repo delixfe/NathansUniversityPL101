@@ -59,5 +59,11 @@ describe("scheem grammar tests", function () {
 		expect(parse(program)).toEqual(["a", "b"]);
 	});
 
+	it("can handle more than one space between parentheses", function () {
+		var program = " (\n \t a \t b \n) ";
+		parse(program);
+		expect(parse(program)).toEqual(["a", "b"]);
+	});
+
 });
 

@@ -9,7 +9,7 @@ atom =
         { return chars.join(""); }
 
 whitespace = 
-    [ ]* { return ""; }
+    [ \n\t]* { return ""; }
 
 innerExpression =
     (atom:atom {return atom;} / expression:expression {return expression;})
