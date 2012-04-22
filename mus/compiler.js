@@ -5,12 +5,12 @@ var endTime = function (time, expr) {
         var l = endTime(time, expr.left);
         var r = endTime(time, expr.right);
         return l > r ? time + l : time + r;
+    } else if (expr.tag === 'seq' ) { 
+        return endTime(endTime(time, expr.left), expr.right);
     } else {
-        var t = endTime(time, expr.left);
-        return endTime(t, expr.right);
+        throw new Error("unkown tag " + expr.tag + ".");
     }
 };
-
 
 var compileT = function(expr, time, notes) {
     if(expr.tag === 'note') {
@@ -21,7 +21,7 @@ var compileT = function(expr, time, notes) {
                 dur: expr.dur});
     } else if (expr.tag === 'seq') {
         compileT(expr.left, time, notes);
-        compileT(expr.right, endTime(time, expr.right), notes);
+        compileT(expr.right, endTime(time, expr.left), notes);
     } else {
         compileT(expr.left, time, notes);
         compileT(expr.right, time, notes);
@@ -35,18 +35,3 @@ var compile = function (expr) {
     return notes;
 };
 
-
-// some test code
-var melody_mus = 
-    { tag: 'seq',
-      left: 
-       { tag: 'seq',
-         left: { tag: 'note', pitch: 'a4', dur: 250 },
-         right: { tag: 'note', pitch: 'b4', dur: 250 } },
-      right:
-       { tag: 'seq',
-         left: { tag: 'note', pitch: 'c4', dur: 500 },
-         right: { tag: 'note', pitch: 'd4', dur: 500 } } };
-
-console.log(melody_mus);
-console.log(compile(melody_mus));
