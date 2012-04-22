@@ -30,5 +30,21 @@ describe("scheem grammar tests", function () {
 		var program = "()";
 		expect(parse(program)).toEqual([]);
 	});
+
+	it("can parse 3 atoms", function () {
+		var program = "(a b -)";
+		parse(program);
+		expect(parse(program)).toEqual(["a", "b", "-"]);
+	});
+
+	it("can parse an expression within an expression", function () {
+		var program = "(+ (+ 1 2) 3)";
+		parse(program);
+		expect(parse(program)).toEqual([
+				"+", 
+				["+", "1", "2"], 
+				"3"
+			]);
+	});
 });
 
