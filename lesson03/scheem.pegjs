@@ -1,25 +1,42 @@
 start =
-    program 
+   program 
 
 validchar
-    = [0-9a-zA-Z_?!+-=@#$%^&*/.]
+    = [0-9a-zA-Z_?!+\-=@#$%^&*/.]
 
 atom =
-    whitespace chars:validchar+ whitespace 
+    whitespaces chars:validchar+ whitespaces 
         { return chars.join(""); }
 
+lineTerminator = 
+       "\n"
+     / "\r\n"
+     / "\r"
+
 whitespace = 
-    [ \n\t]* { return ""; }
+    " "
+    / "\t"
+    / "\v"
+    / "\f"
+    
+comment = 
+    lineTerminator ";;" (!lineTerminator .)*
+
+whitespaces = 
+    (comment
+    / whitespace
+    / lineTerminator)*
 
 innerExpression =
-    (atom:atom {return atom;} / expression:expression {return expression;})
+    atom:atom whitespaces  {return atom;} 
+    / whitespaces expression:expression whitespaces {return expression;}
 
 expression =
    quotedExpression 
-   / whitespace [(] whitespace innerExpression:innerExpression* whitespace [)] whitespace  {return innerExpression; }
+   / whitespaces  "(" whitespaces innerExpression:innerExpression* ")" whitespaces {return innerExpression; }
 
 quotedExpression = 
-    ['][(]whitespace innerExpression:innerExpression* whitespace[)] { return ["quote",innerExpression]; }
+    whitespaces ['][(]whitespaces innerExpression:innerExpression* whitespaces [)] { return ["quote",innerExpression]; }
 
 program = 
     atom / expression
