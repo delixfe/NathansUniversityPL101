@@ -15,7 +15,7 @@ innerExpression =
     (atom:atom {return atom;} / expression:expression {return expression;})
 
 expression =
-    [(] innerExpression:innerExpression* [)] {return innerExpression; }
+    whitespace [(] whitespace innerExpression:innerExpression* whitespace [)] whitespace  {return innerExpression; }
 
 program = 
     atom / expression

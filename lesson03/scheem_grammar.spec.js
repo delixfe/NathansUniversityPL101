@@ -46,5 +46,18 @@ describe("scheem grammar tests", function () {
 				"3"
 			]);
 	});
+
+	it("can handle more than one space between atoms", function () {
+		var program = "(a     b)";
+		parse(program);
+		expect(parse(program)).toEqual(["a", "b"]);
+	});
+
+	it("can handle more than one space between parentheses", function () {
+		var program = " ( a b ) ";
+		parse(program);
+		expect(parse(program)).toEqual(["a", "b"]);
+	});
+
 });
 
