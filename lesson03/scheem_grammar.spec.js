@@ -19,16 +19,16 @@ describe("create scheem parser", function () {
 
 describe("scheem grammar tests", function () {
 	
-	var scheemeParse = PEG.buildParser(grammar).parse;
+	var parse = PEG.buildParser(grammar).parse;
 
 	it("can parse an atom", function () {
 		var program = "+";
-		expect(scheemeParse(program)).toEqual("+");
+		expect(parse(program)).toEqual("+");
 	});
 
 	it("can parse empty expresssion", function () {
 		var program = "()";
-		expect(scheemeParse(program)).toEqual([]);
+		expect(parse(program)).toEqual([]);
 	});
 });
 
