@@ -1,5 +1,5 @@
 var endTime = function (time, expr) {
-    if(expr.tag === 'note') {
+    if(expr.tag === 'note' || expr.tag === 'rest') {
         return time + expr.dur;
     } else if (expr.tag === 'par') {
         var l = endTime(time, expr.left);
@@ -18,10 +18,13 @@ var compileT = function(expr, time, notes) {
                 tag: 'note', 
                 pitch: expr.pitch, 
                 start: time, 
-                dur: expr.dur});
+                dur: expr.dur
+              });
     } else if (expr.tag === 'seq') {
         compileT(expr.left, time, notes);
         compileT(expr.right, endTime(time, expr.left), notes);
+    } else if (expr.tag === 'rest') {
+         // noop      
     } else {
         compileT(expr.left, time, notes);
         compileT(expr.right, time, notes);

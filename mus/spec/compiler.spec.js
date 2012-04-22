@@ -60,4 +60,32 @@ describe("compiler.js", function () {
 		})
 	});
 
+	describe("rest tag tests", function () {
+		
+		it("a rest tag alone produces no output", function () {
+			var melody = { tag: 'rest', duration: 100 };
+			expect(compile(melody)).toEqual([]);
+		});
+
+		it("a rest tag forwards the start time of the next note", function () {
+			var melody_mus = { 
+					tag: 'seq',
+			      	left: { 
+				      	tag: 'rest',
+			         	dur: 100
+			        },
+			      	right: { 
+				      	tag: 'note',
+			         	pitch: 'd3', 
+			         	dur: 500 
+			        }
+		        };
+		    
+		   	var notes = [
+		   		{ tag: 'note', pitch: 'd3', start: 100, dur: 500 }
+		   	];
+		   	expect(compile(melody_mus)).toEqual(notes);
+		});
+	});
+
 });
