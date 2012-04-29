@@ -1,5 +1,10 @@
 
 var evalScheem = function (expr, env) {
+    // make env optional
+    if (!env) {
+        env = {};
+    }
+
     // Numbers evaluate to themselves
     if (typeof expr === 'number') {
         return expr;
