@@ -10,8 +10,14 @@ var evalScheem = function (expr, env) {
         return expr;
     }
 
+    // Strings are variable references
+    if (typeof expr === 'string') {
+        return env[expr];
+    }
+
     // Look at head of list for operation
     switch (expr[0]) {
+        // operands
         case '+':
             return evalScheem(expr[1], env) +
                    evalScheem(expr[2], env);
@@ -24,8 +30,14 @@ var evalScheem = function (expr, env) {
         case '/':
             return evalScheem(expr[1], env) /
                    evalScheem(expr[2], env);
+        // quote
         case 'quote':
-            return expr[1];                   
+            return expr[1];
+        // define, set!, begin
+        case 'define':
+        case 'set!':
+            env[expr[1]] = evalScheem(expr[2], env);
+            return 0;                   
     }            
    
 };
