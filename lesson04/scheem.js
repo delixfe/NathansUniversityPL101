@@ -1,5 +1,6 @@
 
 var evalScheem = function (expr, env) {
+    var list, value, result, i;
     // make env optional
     if (!env) {
         env = {};
@@ -39,24 +40,23 @@ var evalScheem = function (expr, env) {
             env[expr[1]] = evalScheem(expr[2], env);
             return 0;                   
         case 'begin':
-            var i, result;
             for(i = 1; i < expr.length; i++) {
                 result = evalScheem(expr[i], env);
             }
             return result;
         // list handling
         case 'cons':
-            var list = evalScheem(expr[2], env);
-            var value = evalScheem(expr[1], env);
+            list = evalScheem(expr[2], env);
+            value = evalScheem(expr[1], env);
             list.splice(0, 0, value);
             return list;
         case 'car':
-            var listC = evalScheem(expr[1], env);
-            return listC[0];
+            list = evalScheem(expr[1], env);
+            return list[0];
         case 'cdr':
-            var listR = evalScheem(expr[1], env);
-            listR.shift();
-            return listR;                        
+            list = evalScheem(expr[1], env);
+            list.shift();
+            return list;                        
     }            
    
 };
