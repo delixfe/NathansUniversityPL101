@@ -49,7 +49,14 @@ var evalScheem = function (expr, env) {
             var list = evalScheem(expr[2], env);
             var value = evalScheem(expr[1], env);
             list.splice(0, 0, value);
-            return list;            
+            return list;
+        case 'car':
+            var listC = evalScheem(expr[1], env);
+            return listC[0];
+        case 'cdr':
+            var listR = evalScheem(expr[1], env);
+            listR.shift();
+            return listR;                        
     }            
    
 };

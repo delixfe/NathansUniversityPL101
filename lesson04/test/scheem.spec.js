@@ -110,5 +110,35 @@ suite('lists', function() {
             ]);
         expect(result).
         to.eql([[1, 2], 3, 4]);
+    }); 
+    test('car', function () {
+        var result = evalScheem([
+            'car',
+                ['quote', 
+                    [1, 2, 3, 4]
+                ]
+            ]);
+        expect(result).
+        to.eql(1);
+    });
+    test('car with expression as first list element', function () {
+        var result = evalScheem([
+            'car',
+                ['quote', 
+                    [[1, 2], 3, 4]
+                ]
+            ]);
+        expect(result).
+        to.eql([1, 2]);
+    });    
+    test('cdr', function () {
+        var result = evalScheem([
+            'cdr',
+                ['quote', 
+                    [1, 2, 3, 4]
+                ]
+            ]);
+        expect(result).
+        to.eql([2, 3, 4]);
     });    
 });
