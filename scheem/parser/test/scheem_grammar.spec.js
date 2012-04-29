@@ -42,8 +42,8 @@ describe("scheem grammar tests", function () {
 		var parsed = parse(program);
 		expect(parsed).toEqual([
 				"+", 
-				["+", "1", "2"], 
-				"3"
+				["+", 1, 2], 
+				3
 			]);
 	});
 
@@ -67,13 +67,19 @@ describe("scheem grammar tests", function () {
 
 	it("can handle quote special syntax", function () {
 		var program = "'(1 2 3)";
-		expect(parse(program)).toEqual(["quote", ["1", "2", "3"]]);
+		expect(parse(program)).toEqual(["quote", [1, 2, 3]]);
 	});
 
 	it("can ignore comments", function () {
 		var program = "( a \n;; ignore\nb)";
 		var parsed = parse(program);
 		expect(parsed).toEqual(["a", "b"]);
+	});
+
+	it("can parse a number", function () {
+		var program = "5";
+		var parsed = parse(program);
+		expect(parsed).toEqual(5);
 	});
 });
 

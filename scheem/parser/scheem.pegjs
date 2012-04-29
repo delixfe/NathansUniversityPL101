@@ -1,12 +1,15 @@
 start =
    program 
 
-validchar
-    = [0-9a-zA-Z_?!+\-=@#$%^&*/.]
+validchar = 
+    [0-9a-zA-Z_?!+\-=@#$%^&*/.]
+
+number = 
+    [0-9]
 
 atom =
-    whitespaces chars:validchar+ whitespaces 
-        { return chars.join(""); }
+      whitespaces chars:number+ whitespaces { return parseInt(chars, 10); }
+    / whitespaces chars:validchar+ whitespaces  { return chars.join(""); }
 
 lineTerminator = 
        "\n"
