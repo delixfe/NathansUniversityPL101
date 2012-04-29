@@ -1,8 +1,13 @@
 "use strict";
 
-var expect = require('chai').expect;
-var evalScheem = require('../scheem').evalScheem;
-
+if (typeof module !== 'undefined') {
+    // In Node load required modules
+    var expect = require('chai').expect;
+    var evalScheem = require('../scheem').evalScheem;
+} else {
+    // In browser assume already loaded by <script> tags
+    var expect = chai.expect;
+}
 
 suite('second parameter can be ommited', function () {
     test('call only one parameter', function() {

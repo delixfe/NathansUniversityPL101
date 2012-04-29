@@ -1,3 +1,4 @@
+"use strict";
 
 var evalScheem = function (expr, env) {
     var list, value, result, i;
@@ -61,4 +62,7 @@ var evalScheem = function (expr, env) {
    
 };
 
-exports.evalScheem = evalScheem;
+// If we are used as Node module, export evalScheem
+if (typeof module !== 'undefined') {
+    module.exports.evalScheem = evalScheem;
+}
