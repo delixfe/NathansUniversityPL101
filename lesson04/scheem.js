@@ -43,7 +43,13 @@ var evalScheem = function (expr, env) {
             for(i = 1; i < expr.length; i++) {
                 result = evalScheem(expr[i], env);
             }
-            return result;            
+            return result;
+        // list handling
+        case 'cons':
+            var list = evalScheem(expr[2], env);
+            var value = evalScheem(expr[1], env);
+            list.splice(0, 0, value);
+            return list;            
     }            
    
 };

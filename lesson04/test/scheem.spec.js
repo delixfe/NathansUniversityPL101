@@ -85,3 +85,30 @@ suite('begin', function () {
         expect(result).to.eql(4);
     });    
 });
+
+suite('lists', function() {
+    test('cons', function () {
+        var result = evalScheem([
+            'cons',
+                1,
+                ['quote', 
+                    [2, 3]
+                ]
+            ]);
+        expect(result).
+        to.eql([1, 2, 3]);
+    });
+    test('cons first item is added even if it is a list', function () {
+        var result = evalScheem([
+            'cons',
+                ['quote', 
+                    [1, 2]
+                ],
+                ['quote', 
+                    [3, 4]
+                ]
+            ]);
+        expect(result).
+        to.eql([[1, 2], 3, 4]);
+    });    
+});
