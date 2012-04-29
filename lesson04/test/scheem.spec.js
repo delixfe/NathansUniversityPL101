@@ -1,3 +1,5 @@
+"use strict";
+
 var expect = require('chai').expect;
 var evalScheem = require('../scheem').evalScheem;
 
