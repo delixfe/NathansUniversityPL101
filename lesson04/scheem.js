@@ -38,6 +38,12 @@ var evalScheem = function (expr, env) {
         case 'set!':
             env[expr[1]] = evalScheem(expr[2], env);
             return 0;                   
+        case 'begin':
+            var i, result;
+            for(i = 1; i < expr.length; i++) {
+                result = evalScheem(expr[i], env);
+            }
+            return result;            
     }            
    
 };

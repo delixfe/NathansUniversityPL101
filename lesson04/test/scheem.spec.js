@@ -68,3 +68,20 @@ suite('define and set!', function () {
         expect(result).to.eql(0);
     });    
 });
+
+suite('begin', function () {
+    test('last of three numbers is returned', function () {
+        var result = evalScheem(['begin', 1, 2, 3]);
+        expect(result).to.eql(3);
+    });
+    test('last expression is returned', function () {
+        var result = evalScheem([
+            'begin', 
+                ['define', 'x', 1],
+                ['!set', 'x', 2],
+                ['define', 'y', 3],
+                ['+', 'x', 'y']
+            ]);
+        expect(result).to.eql(4);
+    });    
+});
