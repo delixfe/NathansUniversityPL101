@@ -3,33 +3,33 @@ var evalScheem = require('../scheem').evalScheem;
 
 suite('operants', function() {
     test('+', function () {
-        expect(evalScheem(['+', 1, 2])).to.equal(3);
+        expect(evalScheem(['+', 1, 2])).to.eql(3);
     });
     test('-', function () {
-        expect(evalScheem(['-', 1, 2])).to.equal(-1);
+        expect(evalScheem(['-', 1, 2])).to.eql(-1);
     });
     test('*', function () {
-        expect(evalScheem(['*', 2, 3])).to.equal(6);
+        expect(evalScheem(['*', 2, 3])).to.eql(6);
     });
     test('-', function () {
-        expect(evalScheem(['/', 6, 2])).to.equal(3);
+        expect(evalScheem(['/', 6, 2])).to.eql(3);
     });    
 });
 
 suite('quote', function() {
     test('a number', function() {
-        expect(evalScheem(['quote', 3], {})).to.equal(3);
+        expect(
+            evalScheem(['quote', 3], {})).
+        to.eql(3);
     });
     test('an atom', function() {
-        assert.deepEqual(
-            evalScheem(['quote', 'dog'], {}),
-            'dog'
-        );
+        expect(
+            evalScheem(['quote', 'dog'], {})).
+        to.eql('dog');
     });
     test('a list', function() {
-        assert.deepEqual(
-            evalScheem(['quote', [1, 2, 3]], {}),
-            [1, 2, 3]
-        );
+        expect(
+            evalScheem(['quote', [1, 2, 3]], {})).
+        to.eql([1, 2, 3]);
     });
 });
