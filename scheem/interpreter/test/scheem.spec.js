@@ -30,6 +30,18 @@ suite('operants', function() {
     test('-', function () {
         expect(evalScheem(['/', 6, 2])).to.eql(3);
     });    
+    test('=', function () {
+        expect(evalScheem(['=', 1, 1])).to.eql('#t');
+        expect(evalScheem(['=', 1, 2])).to.eql('#f');
+    });    
+    test('<', function () {
+        expect(evalScheem(['<', 1, 2])).to.eql('#t');
+        expect(evalScheem(['<', 1, 1])).to.eql('#f');
+    });    
+    test('>', function () {
+        expect(evalScheem(['>', 2, 1])).to.eql('#t');
+        expect(evalScheem(['>', 1, 1])).to.eql('#f');
+    });     
 });
 
 suite('quote', function() {
@@ -148,4 +160,49 @@ suite('lists', function() {
         expect(result).
         to.eql([2, 3, 4]);
     });    
+});
+
+suite('if', function () {
+    test('true condition execute left branch', function () {
+        var result = evalScheem([
+            'if',
+                ['=', 1, 1],
+                2,
+                3
+            ]);
+        expect(result).
+        to.eql(2);
+    });
+    test('false condition execute right branch', function () {
+        var result = evalScheem([
+            'if',
+                ['=', 1, 2],
+                2,
+                3
+            ]);
+        expect(result).
+        to.eql(3);
+    });
+    test('true condition does not evaluates right branch', function () {
+        var env = {};
+        var result = evalScheem([
+            'if',
+                ['=', 1, 1],
+                2,
+                ['define', 'x', 1]
+            ]);
+        expect(env).
+        to.not.contain.keys('x');
+    });        
+    test('false condition does not evaluates left branch', function () {
+        var env = {};
+        var result = evalScheem([
+            'if',
+                ['=', 1, 1],
+                ['define', 'x', 1],
+                2
+            ]);
+        expect(env).
+        to.not.contain.keys('x');
+    });       
 });

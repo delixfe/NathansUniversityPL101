@@ -1,7 +1,7 @@
 "use strict";
 
 var evalScheem = function (expr, env) {
-    var list, value, result, i;
+    var list, value, result, i, comp;
     // make env optional
     if (!env) {
         env = {};
@@ -32,6 +32,21 @@ var evalScheem = function (expr, env) {
         case '/':
             return evalScheem(expr[1], env) /
                    evalScheem(expr[2], env);
+        case '=':
+            var comp =
+                (evalScheem(expr[1], env) ===
+                 evalScheem(expr[2], env));
+            return comp ? '#t' : '#f';                   
+        case '<':
+            var comp =
+                (evalScheem(expr[1], env) <
+                 evalScheem(expr[2], env));
+            return comp ? '#t' : '#f';             
+        case '>':
+            var comp =
+                (evalScheem(expr[1], env) >
+                 evalScheem(expr[2], env));
+            return comp ? '#t' : '#f';                         
         // quote
         case 'quote':
             return expr[1];
@@ -57,7 +72,18 @@ var evalScheem = function (expr, env) {
         case 'cdr':
             list = evalScheem(expr[1], env);
             list.shift();
-            return list;                        
+            return list;
+        // conditionals
+        case 'if':
+            comp = evalScheem(expr[1], env);
+            if(comp === '#t') {
+                return evalScheem(expr[2]);
+            } else if (comp === '#f') {
+                return evalScheem(expr[3]);
+            } else {
+                throw new Error();
+            }
+            return;
     }            
    
 };
